@@ -1,15 +1,14 @@
 // app/stock/[symbol]/page.jsx
-
-import { getStockPrices } from '@/lib/api';
-import { StockGraph } from '@/components/ui/StockGraph';
+import StockGraph from '@/components/ui/StockGraph';
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { getStockPrices } from '@/lib/api';
 
 export async function generateMetadata({ params }) {
   const symbol = params.symbol.toUpperCase();
   const data = await getStockPrices(symbol, 1);
-  const stockName = data?.companyName || symbol;
+  const stockName = data?.[0]?.companyName || symbol;
 
   return {
     title: `${stockName} (${symbol}) Stock Price`,
@@ -20,15 +19,16 @@ export async function generateMetadata({ params }) {
 
 export default async function StockDetailsPage({ params }) {
   const symbol = params.symbol.toUpperCase();
-  const priceData = await getStockPrices(symbol, 365, 'DAILY');
+  // Using dummy/static API
+  const priceData = await getStockPrices(symbol, 30, 'INTRADAY');
 
   if (!priceData || priceData.length === 0) {
     notFound();
   }
 
-  const chartLabels = priceData.map((d) => new Date(d.date).toLocaleDateString());
-  const priceValues = priceData.map((d) => d.close);
-  const volumeValues = priceData.map((d) => d.volume);
+  const chartLabels = priceData.map(d => new Date(d.date).toLocaleDateString());
+  const priceValues = priceData.map(d => d.close);
+  const volumeValues = priceData.map(d => d.volume);
 
   const chartData = {
     labels: chartLabels,
@@ -53,6 +53,7 @@ export default async function StockDetailsPage({ params }) {
       },
     ],
   };
+
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -64,15 +65,13 @@ export default async function StockDetailsPage({ params }) {
               </button>
             </Link>
             <h1 className="text-2xl font-bold">
-              {priceData.companyName || symbol} ({symbol})
+              {priceData[0]?.companyName || symbol} ({symbol})
             </h1>
           </div>
           <FavoriteButton symbol={symbol} />
         </div>
 
-        <div>
-          <StockGraph data={chartData} />
-        </div>
+        <StockGraph data={chartData} />
       </div>
     </div>
   );
