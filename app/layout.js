@@ -4,8 +4,6 @@ import Header from "@/components/common/Header";
 import "primeicons/primeicons.css";
 import "./globals.css";
 import Footer from "@/components/common/Footer";
-import { MarketSummary } from "@/components/ui/MarketSummary";
-import { GainerLoserList } from "@/components/ui/GainerLoserList";
 
 export default async function RootLayout({ children }) {
   const movers = await getIndexMovers("NIFTY");

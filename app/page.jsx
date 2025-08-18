@@ -7,14 +7,7 @@ export const metadata = {
     "Track live stock prices, view featured companies like TATASTEEL, WIPRO, ASIANPAINT, and build your stock portfolio instantly.",
   keywords:
     "stocks, stock tracker, portfolio, TATASTEEL, WIPRO, ASIANPAINT, BEL",
-  openGraph: {
-    title: "Stock Tracker 📈",
-    description: "Monitor stock prices and manage your portfolio in real time.",
-    url: "https://yourdomain.com",   // 🔹 add your domain here
-    siteName: "Stock Tracker",
-    locale: "en_US",
-    type: "website",
-  },
+    metadataBase: new URL("https://stock-tracker-dummy.netlify.app"), // <-- Replace with your deployed URL
   twitter: {
     card: "summary_large_image",
     title: "Stock Tracker 📈",
