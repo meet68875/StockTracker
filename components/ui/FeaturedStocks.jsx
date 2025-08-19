@@ -16,9 +16,13 @@ export default function FeaturedStocks() {
       const fetchedData = await Promise.all(
         symbols.map(async (symbol) => {
           const data = await getStockPrices(symbol, 1, "INTRADAY");
+          console.log(data);
           if (!data || !Array.isArray(data) || data.length === 0) return null;
 
           const latest = data[0];
+          const change = latest.close - latest.open;
+          const percent = (change / latest.open) * 100;
+
           return {
             symbol,
             companyName: data.companyName ?? symbol,
@@ -26,8 +30,8 @@ export default function FeaturedStocks() {
             high: latest.high,
             low: latest.low,
             close: latest.close,
-            change: latest.change,
-            percent: latest.percent,
+           change,
+  percent,
           };
         })
       );
@@ -45,9 +49,7 @@ export default function FeaturedStocks() {
         {/* Header */}
         <div className="flex justify-between items-center mb-3">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">
-              {stock.symbol}
-            </h2>
+            <h2 className="text-xl font-bold text-gray-800">{stock.symbol}</h2>
             <p className="text-sm text-gray-500">{stock.companyName}</p>
           </div>
           <span
