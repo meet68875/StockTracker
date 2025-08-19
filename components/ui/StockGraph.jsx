@@ -1,21 +1,21 @@
-// components/ui/StockGraph.jsx
 "use client";
 
 import {
   Chart as ChartJS,
-  CategoryScale,   // ✅ X-axis
-  LinearScale,    // ✅ Y-axis
+  CategoryScale,
+  LinearScale,
   BarElement,
   LineElement,
   PointElement,
   Title,
   Tooltip,
   Legend,
+  LineController,   // ✅ controller for line charts
+  BarController,    // ✅ controller for bar charts
 } from "chart.js";
 
 import { Chart } from "react-chartjs-2";
 
-// Register all needed parts
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,7 +24,9 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,   // ✅ register
+  BarController     // ✅ register
 );
 
 export default function StockGraph({ data }) {
